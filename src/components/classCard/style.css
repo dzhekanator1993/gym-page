@@ -1,0 +1,57 @@
+.classes {
+    margin-top: 5rem;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    column-gap: 30px;
+    row-gap: 30px;    
+}
+
+.cardClass {
+    max-width: 370px;
+    background-color: var(--project-card-bg);
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+}
+
+.cardClass_img {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.cardClass p {
+    margin-bottom: 0.5em;
+}
+
+@media (max-width:809px) {
+    .cards {
+        column-gap: 0;  
+        row-gap: 30px;
+    }
+}
+/* 
+.cardClass::before {
+    content: "200uah";
+    color: var(--text-color);
+    background: var(--accent);
+    width: 70px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 50%;
+    position: relative;
+    transform: translate(-100%);
+    font-weight: 600;
+}
+
+.cardClass.vip::before {
+    content: "600uah";
+} */

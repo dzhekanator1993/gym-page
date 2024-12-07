@@ -1,0 +1,50 @@
+.service {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+    min-height: 250px;
+}
+
+.service_card {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.service_ico {
+    height: 50px;
+    width: 50px;
+    margin: 15px;
+}
+
+.service_title {
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.service_text {
+    text-align: center;
+}
+
+
+@media (max-width: 1024px) {
+    .service {
+        grid-template-columns: 1fr 1fr;
+        margin: auto;
+    }
+
+    .service_card {
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 620px) {
+    .service {
+        grid-template-columns: 1fr;
+    }
+
+}

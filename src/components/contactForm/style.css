@@ -1,0 +1,32 @@
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    margin: 3rem auto;
+    padding: 25px;
+}
+.form-content{
+    display: flex;
+    flex-direction: column;
+}
+.form-content input{
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid grey;
+    outline: none;
+    transition: .4s ease;
+    background: transparent;
+}
+.form-content input:focus{
+    height: 60px;
+}
+.message-input{
+    height: 60px;
+}
+.message-input:focus{
+    height: 120px;
+}
+.btn-form{
+    margin-top: 1rem;
+}
