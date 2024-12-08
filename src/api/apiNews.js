@@ -1,12 +1,8 @@
 import axios from "axios";
 
+const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
 
-console.log('import.meta.env:', import.meta.env);
-
-const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
-console.log(API_KEY);
-
-const BASE_URL = import.meta.env.VITE_NEWS_BASE_API_URL
+const BASE_URL = process.env.REACT_APP_NEWS_BASE_API_URL
 
 export const getNews = async () => {
     try {

@@ -8,7 +8,7 @@ import Footer from "./components/footer/Footer";
 import Home from "./pages/Home";
 import Contacts from "./pages/Contacts";
 import News from "./pages/News";
-console.log(import.meta.env);
+
 function App() {
 
   return (
