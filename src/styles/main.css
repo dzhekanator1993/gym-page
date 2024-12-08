@@ -8,7 +8,7 @@
     --purple: #5c62ec;
     --blackpure: #000;
     --page-bg: #252526;
-    --light-gradient: linear-gradient(-90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+    --light-gradient: linear-gradient(-90deg, #f0f0f0 0%, #6c7072 50%, #f0f0f0 100%);
 
     --dark-bg: var(--black);
     --dark-border: var(--black-border);
