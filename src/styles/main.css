@@ -8,6 +8,7 @@
     --purple: #5c62ec;
     --blackpure: #000;
     --page-bg: #252526;
+    --light-gradient: linear-gradient(-90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
 
     --dark-bg: var(--black);
     --dark-border: var(--black-border);
@@ -19,6 +20,7 @@
     /* Light mode */
     --page-bg: var(--white);
     --text-color: var(--black);
+    --gradient: var(var(--light-gradient));
 
     --title-1: var(--accent);
 
@@ -30,7 +32,7 @@
 .dark{
     --page-bg: #252526;
     --text-color: var(--white);
-
+    --gradient: linear-gradient(-90deg, #000000 0%, #6c7072 50%, #000000 100%);
     --title-1: var(--white);
     --title-color: var(--black);
 
