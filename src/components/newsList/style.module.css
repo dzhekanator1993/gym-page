@@ -4,3 +4,7 @@
     flex-direction: column;
     gap: 24px;
 }
+
+li{
+    list-style-type: none;
+}
