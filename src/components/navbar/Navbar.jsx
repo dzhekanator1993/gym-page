@@ -1,22 +1,21 @@
 import { NavLink } from "react-router-dom";
+import Dates from "../date/Dates";
 import BtnDarkMode from '../btnDarkMode/BtnDarkMode';
 import './style.css'
-
-
-
 
 const Navbar = () => {
 
     const activeLink = 'nav-list__link nav-list__link--active'; 
     const normLink = 'nav-list__link'; 
     
+  
     return (<nav className="nav">
         <div className="container">
             <div className="naw-row">
                 <NavLink to="/" className="logo">
                     Terny<strong>GYM</strong>
                 </NavLink>
-
+                <Dates />
                 <BtnDarkMode />
 
                 <ul className="naw-list">

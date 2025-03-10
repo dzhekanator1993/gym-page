@@ -1,0 +1,6 @@
+.date{
+  margin-right: auto;
+  color: var(--header-text);
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+}
