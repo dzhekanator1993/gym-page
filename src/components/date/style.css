@@ -1,6 +1,12 @@
 .date{
-  margin-right: auto;
+  text-align: center;
+  margin: auto;
   color: var(--header-text);
-  font-size: 20px;
-  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Poppins', sans-serif; */
+}
+
+@media (max-width: 900px) {
+  .date{
+    display: none;
+  }
 }
