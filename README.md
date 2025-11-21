@@ -179,18 +179,86 @@ cp backend/.env.example backend/.env
 
 ## 🚀 Deployment
 
-### Frontend (Vercel)
+### Frontend — Vercel Deployment
+
+#### Швидкий Старт
 
 ```bash
-# Встановити Vercel CLI
+# 1. Встановити Vercel CLI (якщо ще не встановлено)
 npm i -g vercel
 
-# Deploy
+# 2. Залогінитись
+vercel login
+
+# 3. Deploy на production
 vercel --prod
 ```
 
-**Environment Variables в Vercel:**
-- `REACT_APP_API_URL` = `https://your-backend.onrender.com/api`
+#### Налаштування через Vercel Dashboard
+
+1. **Імпорт проєкту:**
+   - Відкрити [vercel.com/new](https://vercel.com/new)
+   - Підключити GitHub репозиторій
+   - Вибрати `gym-page` проєкт
+
+2. **Build Settings** (автоматично визначаються):
+   - **Framework Preset:** Create React App
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `build`
+   - **Install Command:** `npm install`
+
+3. **Environment Variables:**
+   - Перейти в Settings → Environment Variables
+   - Додати змінні:
+
+   | Name | Value | Environment |
+   |------|-------|-------------|
+   | `REACT_APP_API_URL` | `https://your-backend.onrender.com/api` | Production |
+   | `REACT_APP_API_URL` | `http://localhost:5000/api` | Preview |
+
+   > ⚠️ **Важливо:** Використовуйте тільки `REACT_APP_*` префікс для клієнтських змінних
+
+4. **Deploy:**
+   - Натиснути "Deploy"
+   - Vercel автоматично збудує та задеплоїть проєкт
+
+#### Автоматичний Deployment
+
+Після налаштування, кожен push в `main` branch автоматично деплоїться на production:
+
+```bash
+git push origin main
+# Vercel автоматично задеплоїть зміни
+```
+
+**Preview Deployments:**
+- Кожен Pull Request отримує унікальний preview URL
+- Ідеально для тестування перед merge
+
+#### Перевірка SPA Routing
+
+Після деплою перевірте, що багатосторінкова навігація працює:
+
+1. Відкрити `https://your-app.vercel.app/courses`
+2. Оновити сторінку (F5)
+3. Переконатись, що немає 404 помилки
+
+> ✅ `vercel.json` вже налаштований для SPA fallback
+
+#### Troubleshooting
+
+**Проблема:** 404 на refresh
+- **Рішення:** Перевірити `vercel.json` — має бути `{ "src": "/(.*)", "dest": "/index.html" }`
+
+**Проблема:** Environment variables не працюють
+- **Рішення:** Переконатись, що використовуєте `REACT_APP_*` префікс
+- **Рішення:** Redeploy після додавання змінних
+
+**Проблема:** Build fails
+- **Рішення:** Запустити `npm run build` локально для діагностики
+- **Рішення:** Перевірити Node.js версію (має бути >= 20)
+
+---
 
 ### Backend (Render)
 
