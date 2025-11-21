@@ -59,6 +59,7 @@ export default function Home() {
 
     useEffect(() => {
         fetchNews();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchNews = async () => {
