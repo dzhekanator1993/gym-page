@@ -2,22 +2,32 @@
   "name": "gym-page",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@tanstack/react-query": "^5.17.19",
     "axios": "^1.7.8",
-    "dotenv": "^16.4.7",
-    "node-modules": "^1.0.1",
+    "framer-motion": "^11.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.0.1",
+    "react-player": "^2.14.1",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "^5.0.1",
-    "react-transition-group": "^4.4.5",
-    "web-vitals": "^2.1.4"
+    "react-transition-group": "^4.4.5"
+  },
+  "overrides": {
+    "react-refresh": "^0.17.0"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "backend": "cd backend && npm start"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +52,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4"
-  }
+    "react-scripts": "^5.0.1"
+  },
+  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
 }
