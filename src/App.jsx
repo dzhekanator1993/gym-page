@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Contacts from "./pages/Contacts";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import Lesson from "./pages/Lesson";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/about" element={<Contacts />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/register" element={<Register />} />
 
           {/* Protected Routes - потребують авторизації */}
           <Route path="/courses" element={
