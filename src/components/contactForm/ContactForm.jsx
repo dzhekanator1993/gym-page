@@ -3,7 +3,7 @@ import "./style.css";
 
 
 const ContactForm = () => {
-    const [result, setResult] = React.useState("");
+  const [result, setResult] = React.useState("");
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -23,24 +23,23 @@ const ContactForm = () => {
       setResult("Form Submitted Successfully");
       event.target.reset();
     } else {
-      console.log("Error", data);
       setResult(data.message);
     }
   };
-    return (
-        <div className="contact-form">
-            <h2 className="title-2">Send me message</h2>
-            <form onSubmit={onSubmit} className="form-content">
-                <label htmlFor="name" className="name-label">Name*</label>
-                <input type="text" name="name"/>
-                <label htmlFor="mobile" className="email-label">Mobile number*</label>
-                <input type="text" name="mobile"/>
-                <label htmlFor="message" className="message-label">Message</label>
-                <input type="text" name="message"  className="message-input"/>
-                <button type="submit" className="btn btn-form">Submit</button>
-            </form>
-        </div>
-    )
+  return (
+    <div className="contact-form">
+      <h2 className="title-2">Send me message</h2>
+      <form onSubmit={onSubmit} className="form-content">
+        <label htmlFor="name" className="name-label">Name*</label>
+        <input type="text" name="name" />
+        <label htmlFor="mobile" className="email-label">Mobile number*</label>
+        <input type="text" name="mobile" />
+        <label htmlFor="message" className="message-label">Message</label>
+        <input type="text" name="message" className="message-input" />
+        <button type="submit" className="btn btn-form">Submit</button>
+      </form>
+    </div>
+  )
 };
 
 export default ContactForm;

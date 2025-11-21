@@ -1,0 +1,123 @@
+/* Загальні стилі для сторінки */
+.page-news {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: var(--page-bg);
+    min-height: 100vh;
+  }
+  
+  .left-block {
+    width: 20%;
+  }
+  
+  .center-block {
+    width: 75%;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .auth-buttons button {
+    background-color: var(--accent-color, #4f46e5);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .auth-buttons button:hover {
+    background-color: var(--accent-hover-color, #4338ca);
+  }
+  
+  /* Логін користувача */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px 0;
+    margin-top: 2rem;
+}
+
+.username {
+    font-size: 1.4rem;
+    color: #e546bd;
+}
+
+.user-info .add-news-button {
+    background-color: var(--accent-color, #4f46e5);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.user-info .add-news-button:hover {
+    background-color: var(--accent-hover-color, #4338ca);
+}
+  
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .news-item {
+    background-color: var(--item-bg);
+    border: 1px solid var(--dark-border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  
+  .news-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .news-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .news-item-header h3 {
+    font-size: 1.5rem;
+    color: var(--primary-text, #333);
+  }
+
+  .news-item p {
+    font-size: 1rem;
+    color: var(--secondary-text, #555);
+    margin-top: 10px;
+  }
+
+  .delete-button {
+    font-size: 1.5rem;
+    color: var(--error-color, #e74c3c);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .news-item-expanded {
+    margin-top: 10px;
+  }
+  
+  .news-item-footer {
+    font-size: 0.9rem;
+    color: var(--tertiary-text, #777);
+    margin-top: 10px;
+  }
+  

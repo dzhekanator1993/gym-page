@@ -40,6 +40,10 @@
     background-position: center center;
 
     color: var(--project-card-text);
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /* Обмежуємо поля вводу в межах модалки */
+    overflow: hidden;  /* Забороняємо вихід за межі */
 }
 
 .modal-close-button {

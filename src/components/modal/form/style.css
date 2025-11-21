@@ -1,0 +1,63 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    max-width: 500px; /* додано для обмеження ширини форми */
+    margin: 3rem auto;
+    padding: 25px;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* невеликий відступ між полями */
+}
+
+.form-content input {
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid grey;
+    outline: none;
+    transition: height 0.4s ease;
+    background: transparent;
+}
+
+.form-content input:focus {
+    height: 60px;
+}
+
+/* Стилі для textarea */
+.message-input {
+    height: 60px;
+    resize: vertical; /* дозволяємо змінювати висоту вниз */
+    /*resize: none;   Забороняємо змінювати розміри поля */
+    min-height: 60px;
+    max-height: 200px; /* максимальна висота */
+    max-width: 100%; /* щоб не вилазило за межі форми */
+    width: 100%;  /* Задаємо ширину на 100% */
+    border: none;
+    border-bottom: 1px solid grey;
+    outline: none;
+    transition: height 0.4s ease;
+    background: transparent;
+}
+
+.message-input:focus {
+    height: 120px;
+}
+
+.btn-form {
+    margin-top: 1rem;
+    padding: 10px;
+    background-color: var(--accent-color, #4f46e5); /* запасний колір, якщо не заданий */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-form:hover {
+    background-color: var(--accent-hover-color, #4338ca); /* запасний */
+}

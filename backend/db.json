@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "login": "John Wick",
+      "password": "1234"
+    }
+  ],
+  "news": [
+    {
+      "id": 1745741089661,
+      "title": "Title 2",
+      "text": "Text 2",
+      "author": "John Wick",
+      "time": "27.04.2025, 11:04:49"
+    },
+    {
+      "id": 1745740851433,
+      "title": "Title 1",
+      "text": "Text 1",
+      "author": "Автор",
+      "time": "27.04.2025, 11:00:51"
+    }
+  ]
+}

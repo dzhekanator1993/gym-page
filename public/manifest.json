@@ -1,0 +1,68 @@
+{
+  "name": "TernyGym — Онлайн Платформа для Фітнес Курсів",
+  "short_name": "TernyGym",
+  "description": "Професійні фітнес курси онлайн від TernyGym",
+  "theme_color": "#4F46E5",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192-maskable.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "fitness",
+    "health",
+    "education"
+  ],
+  "shortcuts": [
+    {
+      "name": "Курси",
+      "short_name": "Курси",
+      "description": "Переглянути всі курси",
+      "url": "/courses",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Увійти",
+      "short_name": "Вхід",
+      "description": "Увійти в акаунт",
+      "url": "/auth",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

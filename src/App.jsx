@@ -7,7 +7,12 @@ import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/Home";
 import Contacts from "./pages/Contacts";
-// import News from "./pages/News";
+import Auth from "./pages/Auth";
+import Login from "./pages/Login";
+import Courses from "./pages/Courses";
+import CourseDetail from "./pages/CourseDetail";
+import Lesson from "./pages/Lesson";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -16,9 +21,28 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/contacts" element={<Contacts />} />
-{/*           <Route path="/news" element={<News />} /> */}
+          <Route path="/about" element={<Contacts />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/login" element={<Login />} />
+
+          {/* Protected Routes - потребують авторизації */}
+          <Route path="/courses" element={
+            <ProtectedRoute>
+              <Courses />
+            </ProtectedRoute>
+          } />
+          <Route path="/course/:id" element={
+            <ProtectedRoute>
+              <CourseDetail />
+            </ProtectedRoute>
+          } />
+          <Route path="/lesson/:id" element={
+            <ProtectedRoute>
+              <Lesson />
+            </ProtectedRoute>
+          } />
         </Routes>
         <Footer />
       </Router>

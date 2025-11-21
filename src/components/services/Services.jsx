@@ -1,5 +1,4 @@
 import "./style.css";
-import React from "react";
 
 import ServicesImg from "./services.jpeg";
 
