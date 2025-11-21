@@ -13,7 +13,6 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
-  Divider,
   HStack,
   useToast,
   Link,
