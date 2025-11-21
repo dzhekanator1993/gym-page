@@ -13,20 +13,20 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
-  Divider,
   HStack,
   useToast,
   Link,
   useColorModeValue
 } from '@chakra-ui/react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-
 import { authService } from '../services/auth.service';
 
-export default function Login() {
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -37,25 +37,49 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validation
+    if (password !== confirmPassword) {
+      toast({
+        title: 'Помилка',
+        description: 'Паролі не співпадають',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        title: 'Помилка',
+        description: 'Пароль повинен містити мінімум 6 символів',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const response = await authService.login(email, password);
+      await authService.register(username, email, password);
 
       toast({
-        title: 'Успішний вхід!',
-        description: `Ласкаво просимо, ${response.user.username}`,
+        title: 'Реєстрація успішна!',
+        description: 'Тепер ви можете увійти до системи',
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
 
-      // Redirect to courses
-      navigate('/courses');
+      // Redirect to login
+      navigate('/auth/login');
     } catch (error) {
       toast({
-        title: 'Помилка входу',
-        description: error.response?.data?.message || 'Невірний email або пароль',
+        title: 'Помилка реєстрації',
+        description: error.response?.data?.message || 'Помилка сервера. Спробуйте пізніше',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -65,22 +89,20 @@ export default function Login() {
     }
   };
 
-
-
   return (
     <Container maxW="md" py={12}>
       <VStack spacing={8}>
         {/* Header */}
         <Box textAlign="center">
           <Heading color="brand.500" size="2xl" mb={2}>
-            Вхід
+            Реєстрація
           </Heading>
           <Text color="gray.600">
-            Увійдіть до свого акаунту TernyGym
+            Створіть акаунт TernyGym
           </Text>
         </Box>
 
-        {/* Login Form */}
+        {/* Register Form */}
         <Box
           w="full"
           bg={bgColor}
@@ -92,18 +114,28 @@ export default function Login() {
         >
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
+              {/* Username */}
+              <FormControl isRequired>
+                <FormLabel>Ім'я користувача</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Введіть ім'я"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  size="lg"
+                />
+              </FormControl>
+
               {/* Email */}
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
-                <InputGroup>
-                  <Input
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    size="lg"
-                  />
-                </InputGroup>
+                <Input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  size="lg"
+                />
               </FormControl>
 
               {/* Password */}
@@ -112,7 +144,7 @@ export default function Login() {
                 <InputGroup>
                   <Input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Введіть пароль"
+                    placeholder="Мінімум 6 символів"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     size="lg"
@@ -128,13 +160,17 @@ export default function Login() {
                 </InputGroup>
               </FormControl>
 
-              {/* Forgot Password */}
-              <HStack w="full" justify="space-between">
-                <Box />
-                <Link color="brand.500" fontSize="sm" fontWeight="medium">
-                  Забули пароль?
-                </Link>
-              </HStack>
+              {/* Confirm Password */}
+              <FormControl isRequired>
+                <FormLabel>Підтвердіть пароль</FormLabel>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Повторіть пароль"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  size="lg"
+                />
+              </FormControl>
 
               {/* Submit Button */}
               <Button
@@ -143,23 +179,21 @@ export default function Login() {
                 size="lg"
                 w="full"
                 isLoading={isLoading}
-                loadingText="Вхід..."
+                loadingText="Реєстрація..."
               >
-                Увійти
+                Зареєструватись
               </Button>
             </VStack>
           </form>
         </Box>
 
-        {/* Sign Up Link */}
+        {/* Login Link */}
         <HStack>
-          <Text color="gray.600">Немає акаунту?</Text>
-          <Link color="brand.500" fontWeight="medium" onClick={() => navigate('/auth/register')}>
-            Зареєструватись
+          <Text color="gray.600">Вже є акаунт?</Text>
+          <Link color="brand.500" fontWeight="medium" onClick={() => navigate('/auth/login')}>
+            Увійти
           </Link>
         </HStack>
-
-
       </VStack>
     </Container>
   );

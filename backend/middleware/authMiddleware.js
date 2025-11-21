@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, "secretkey");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey");
     req.user = decoded;
     next();
   } catch (error) {
@@ -16,4 +16,12 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+// Admin-only middleware
+const adminOnly = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: "Доступ заборонено. Потрібні права адміністратора" });
+  }
+  next();
+};
+
+module.exports = { authMiddleware, adminOnly };

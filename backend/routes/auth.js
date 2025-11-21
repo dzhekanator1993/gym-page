@@ -41,9 +41,21 @@ router.post('/login', async (req, res) => {
     if (!isPasswordValid) return res.status(400).json({ message: 'Невірний email або пароль' });
 
     // Генерація JWT
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign(
+      { id: user._id, userId: user._id, username: user.username, role: user.role },
+      process.env.JWT_SECRET || "secretkey",
+      { expiresIn: '7d' }
+    );
 
-    res.status(200).json({ token, user: { id: user._id, username: user.username, email: user.email } });
+    res.status(200).json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: 'Помилка сервера' });
   }
@@ -58,7 +70,7 @@ router.get("/check-token", async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, "secretkey");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey");
     const user = await User.findById(decoded.userId);
 
     if (!user) {
