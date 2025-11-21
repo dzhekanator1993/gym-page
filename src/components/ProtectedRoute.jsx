@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }) {
       try {
         setUser(JSON.parse(userData));
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Silent fail - invalid user data, remove from storage
         localStorage.removeItem('user');
       }
     }

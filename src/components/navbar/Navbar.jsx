@@ -18,7 +18,7 @@ const Navbar = () => {
                 try {
                     setUser(JSON.parse(userData));
                 } catch (error) {
-                    console.error('Error parsing user data:', error);
+                    // Silent fail - invalid user data
                     localStorage.removeItem('user');
                     setUser(null);
                 }

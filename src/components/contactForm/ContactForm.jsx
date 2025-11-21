@@ -38,6 +38,7 @@ const ContactForm = () => {
         <input type="text" name="message" className="message-input" />
         <button type="submit" className="btn btn-form">Submit</button>
       </form>
+      {result && <p className="form-result">{result}</p>}
     </div>
   )
 };
