@@ -27,13 +27,15 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "backend": "cd backend && npm start"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "backend": "cd backend && npm start",
+    "lint": "eslint src --ext .js,.jsx",
+    "lint:fix": "eslint src --ext .js,.jsx --fix",
+    "lint:unused": "eslint src --ext .js,.jsx --rule 'unused-imports/no-unused-imports: error'",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,scss,md}\"",
+    "check": "npm run format:check && npm run lint",
+    "fix": "npm run format && npm run lint:fix",
+    "deps:check": "depcheck --ignores='react-scripts,@testing-library/*,web-vitals'"
   },
   "browserslist": {
     "production": [
@@ -52,6 +54,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "depcheck": "^1.4.7",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "^3.1.1",
     "react-scripts": "^5.0.1"
   },
   "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
