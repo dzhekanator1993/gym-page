@@ -71,17 +71,7 @@ export default function Login() {
     }, 1500);
   };
 
-  const handleDemoLogin = () => {
-    setEmail('demo@ternygym.com');
-    setPassword('demo123');
-    toast({
-      title: 'Demo акаунт',
-      description: 'Використовуйте ці дані для входу',
-      status: 'info',
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+
 
   return (
     <Container maxW="md" py={12}>
@@ -163,19 +153,6 @@ export default function Login() {
               >
                 Увійти
               </Button>
-
-              <Divider />
-
-              {/* Demo Login */}
-              <Button
-                variant="outline"
-                colorScheme="brand"
-                size="lg"
-                w="full"
-                onClick={handleDemoLogin}
-              >
-                Використати Demo акаунт
-              </Button>
             </VStack>
           </form>
         </Box>
@@ -188,20 +165,7 @@ export default function Login() {
           </Link>
         </HStack>
 
-        {/* Info Box */}
-        <Box
-          w="full"
-          p={4}
-          bg="blue.50"
-          borderRadius="md"
-          borderLeft="4px"
-          borderColor="blue.500"
-        >
-          <Text fontSize="sm" color="blue.700">
-            <strong>Примітка:</strong> Це демо-версія без бекенду.
-            Використовуйте будь-який email та пароль для входу, або натисніть "Demo акаунт".
-          </Text>
-        </Box>
+
       </VStack>
     </Container>
   );
