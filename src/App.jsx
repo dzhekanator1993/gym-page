@@ -16,6 +16,7 @@ import Lesson from "./pages/Lesson";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CourseManagement from "./pages/admin/CourseManagement";
 import CourseEditor from "./pages/admin/CourseEditor";
+import LessonEditor from "./pages/admin/LessonEditor";
 
 function App() {
 
@@ -62,6 +63,16 @@ function App() {
           <Route path="/admin/courses/:id/edit" element={
             <ProtectedRoute>
               <CourseEditor />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/lessons/new" element={
+            <ProtectedRoute>
+              <LessonEditor />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/lessons/:lessonId/edit" element={
+            <ProtectedRoute>
+              <LessonEditor />
             </ProtectedRoute>
           } />
         </Routes>
