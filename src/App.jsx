@@ -14,6 +14,8 @@ import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import Lesson from "./pages/Lesson";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CourseManagement from "./pages/admin/CourseManagement";
+import CourseEditor from "./pages/admin/CourseEditor";
 
 function App() {
 
@@ -29,20 +31,37 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
 
-          {/* Protected Routes - потребують авторизації */}
+          {/* Protected Routes */}
           <Route path="/courses" element={
             <ProtectedRoute>
               <Courses />
             </ProtectedRoute>
           } />
-          <Route path="/course/:id" element={
+          <Route path="/courses/:id" element={
             <ProtectedRoute>
               <CourseDetail />
             </ProtectedRoute>
           } />
-          <Route path="/lesson/:id" element={
+          <Route path="/courses/:courseId/lessons/:lessonId" element={
             <ProtectedRoute>
               <Lesson />
+            </ProtectedRoute>
+          } />
+
+          {/* Admin Routes */}
+          <Route path="/admin/courses" element={
+            <ProtectedRoute>
+              <CourseManagement />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/courses/new" element={
+            <ProtectedRoute>
+              <CourseEditor />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/courses/:id/edit" element={
+            <ProtectedRoute>
+              <CourseEditor />
             </ProtectedRoute>
           } />
         </Routes>
