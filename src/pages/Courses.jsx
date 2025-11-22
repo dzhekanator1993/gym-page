@@ -5,7 +5,6 @@ import {
   SimpleGrid,
   Card,
   CardBody,
-  CardHeader,
   Image,
   Text,
   Badge,
