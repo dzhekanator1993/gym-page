@@ -51,27 +51,27 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin/courses" element={
-            <ProtectedRoute>
+            <ProtectedRoute adminOnly>
               <CourseManagement />
             </ProtectedRoute>
           } />
           <Route path="/admin/courses/new" element={
-            <ProtectedRoute>
+            <ProtectedRoute adminOnly>
               <CourseEditor />
             </ProtectedRoute>
           } />
           <Route path="/admin/courses/:id/edit" element={
-            <ProtectedRoute>
+            <ProtectedRoute adminOnly>
               <CourseEditor />
             </ProtectedRoute>
           } />
           <Route path="/admin/lessons/new" element={
-            <ProtectedRoute>
+            <ProtectedRoute adminOnly>
               <LessonEditor />
             </ProtectedRoute>
           } />
           <Route path="/admin/lessons/:lessonId/edit" element={
-            <ProtectedRoute>
+            <ProtectedRoute adminOnly>
               <LessonEditor />
             </ProtectedRoute>
           } />

@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, adminOnly = false }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +24,11 @@ export default function ProtectedRoute({ children }) {
 
   if (!user) {
     return <Navigate to="/auth/login" replace />;
+  }
+
+  // Check admin-only routes
+  if (adminOnly && user.user?.role !== 'admin') {
+    return <Navigate to="/courses" replace />;
   }
 
   return children;

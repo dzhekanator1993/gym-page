@@ -13,7 +13,6 @@ import {
   Divider,
   useToast,
   useColorModeValue,
-  Icon,
   Spinner,
   List,
   ListItem,
