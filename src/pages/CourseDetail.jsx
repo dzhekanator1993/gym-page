@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -16,98 +17,107 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  useColorModeValue
+  useColorModeValue,
+  Spinner,
+  useToast,
+  Image,
 } from '@chakra-ui/react';
-import { FiPlay, FiClock, FiBook, FiArrowLeft, FiCheckCircle, FiLock } from 'react-icons/fi';
-
-// Тимчасові дані з модулями
-const mockCourseDetails = {
-  1: {
-    title: 'Основи Фітнесу',
-    description: 'Комплексний курс для початківців, який охоплює всі аспекти здорового способу життя',
-    duration: '4 тижні',
-    level: 'Початковий',
-    progress: 35, // Прогрес у відсотках
-    modules: [
-      {
-        id: 1,
-        title: 'Модуль 1: Вступ до фітнесу',
-        lessons: [
-          { id: 1, title: 'Що таке фітнес?', duration: '15 хв', completed: true, type: 'video' },
-          { id: 2, title: 'Базові принципи', duration: '20 хв', completed: true, type: 'text' },
-          { id: 3, title: 'Тест: Перевірка знань', duration: '10 хв', completed: false, type: 'quiz' },
-        ]
-      },
-      {
-        id: 2,
-        title: 'Модуль 2: Розминка та розтяжка',
-        lessons: [
-          { id: 4, title: 'Важливість розминки', duration: '18 хв', completed: false, type: 'video' },
-          { id: 5, title: 'Техніка розтяжки', duration: '25 хв', completed: false, type: 'video' },
-          { id: 6, title: 'Практичні вправи', duration: '30 хв', completed: false, type: 'text' },
-        ]
-      },
-      {
-        id: 3,
-        title: 'Модуль 3: Харчування',
-        lessons: [
-          { id: 7, title: 'Основи харчування', duration: '22 хв', completed: false, type: 'text', locked: true },
-          { id: 8, title: 'Калорії та макронутрієнти', duration: '28 хв', completed: false, type: 'video', locked: true },
-        ]
-      }
-    ]
-  },
-  2: {
-    title: 'Силові Тренування',
-    description: 'Програма для набору м\'язової маси та збільшення сили',
-    duration: '8 тижнів',
-    level: 'Середній',
-    progress: 0,
-    modules: [
-      {
-        id: 1,
-        title: 'Модуль 1: Анатомія м\'язів',
-        lessons: [
-          { id: 9, title: 'Будова м\'язів', duration: '25 хв', completed: false, type: 'video' },
-          { id: 10, title: 'М\'язові групи', duration: '30 хв', completed: false, type: 'text' },
-        ]
-      }
-    ]
-  },
-  3: {
-    title: 'Кардіо та Витривалість',
-    description: 'Покращте свою витривалість та спалюйте калорії ефективно',
-    duration: '6 тижнів',
-    level: 'Початковий',
-    progress: 0,
-    modules: [
-      {
-        id: 1,
-        title: 'Модуль 1: Основи кардіо',
-        lessons: [
-          { id: 11, title: 'Що таке кардіо?', duration: '20 хв', completed: false, type: 'video' },
-          { id: 12, title: 'HIIT тренування', duration: '25 хв', completed: false, type: 'video' },
-        ]
-      }
-    ]
-  }
-};
+import { FiPlay, FiClock, FiBook, FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
+import { courseService } from '../services/course.service';
+import { progressService } from '../services/progress.service';
 
 export default function CourseDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const course = mockCourseDetails[id];
+  const toast = useToast();
+
+  const [course, setCourse] = useState(null);
+  const [progress, setProgress] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const bgColor = useColorModeValue('white', 'gray.700');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
   const textColor = useColorModeValue('gray.600', 'gray.300');
   const mutedColor = useColorModeValue('gray.500', 'gray.400');
-
-  // Lesson card colors
   const lessonBgNormal = useColorModeValue('gray.50', 'gray.600');
   const lessonBgCompleted = useColorModeValue('green.50', 'green.900');
   const lessonHoverNormal = useColorModeValue('gray.100', 'gray.500');
-  const lessonHoverLocked = useColorModeValue('gray.50', 'gray.600');
+
+  useEffect(() => {
+    fetchCourseData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const fetchCourseData = async () => {
+    try {
+      setLoading(true);
+      const courseResponse = await courseService.getCourseById(id);
+      setCourse(courseResponse.data);
+
+      // Fetch progress
+      try {
+        const progressResponse = await progressService.getProgress(id);
+        setProgress(progressResponse.data);
+      } catch (error) {
+        // Progress might not exist yet, that's ok
+        setProgress(null);
+      }
+    } catch (error) {
+      toast({
+        title: 'Помилка',
+        description: 'Не вдалося завантажити курс',
+        status: 'error',
+        duration: 3000,
+      });
+      navigate('/courses');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getDifficultyColor = (difficulty) => {
+    switch (difficulty) {
+      case 'beginner': return 'green';
+      case 'intermediate': return 'orange';
+      case 'advanced': return 'red';
+      default: return 'gray';
+    }
+  };
+
+  const getDifficultyLabel = (difficulty) => {
+    const labels = {
+      beginner: 'Початківець',
+      intermediate: 'Середній',
+      advanced: 'Просунутий'
+    };
+    return labels[difficulty] || difficulty;
+  };
+
+  const isLessonCompleted = (lessonId) => {
+    if (!progress) return false;
+    return progress.completedLessons.some(l => l._id === lessonId || l === lessonId);
+  };
+
+  const getTotalLessons = () => {
+    if (!course || !course.modules) return 0;
+    return course.modules.reduce((total, module) => total + (module.lessons?.length || 0), 0);
+  };
+
+  const getCompletedLessons = () => {
+    if (!progress) return 0;
+    return progress.completedLessons.length;
+  };
+
+  if (loading) {
+    return (
+      <Container maxW="container.lg" py={12}>
+        <VStack spacing={8}>
+          <Spinner size="xl" color="brand.500" />
+          <Text>Завантаження курсу...</Text>
+        </VStack>
+      </Container>
+    );
+  }
 
   if (!course) {
     return (
@@ -120,23 +130,9 @@ export default function CourseDetail() {
     );
   }
 
-  const totalLessons = course.modules.reduce((acc, module) => acc + module.lessons.length, 0);
-  const completedLessons = course.modules.reduce(
-    (acc, module) => acc + module.lessons.filter(l => l.completed).length,
-    0
-  );
-
-  const getLessonIcon = (lesson) => {
-    if (lesson.locked) return FiLock;
-    if (lesson.completed) return FiCheckCircle;
-    return FiPlay;
-  };
-
-  const getLessonColor = (lesson) => {
-    if (lesson.locked) return 'gray.400';
-    if (lesson.completed) return 'green.500';
-    return 'brand.500';
-  };
+  const totalLessons = getTotalLessons();
+  const completedLessons = getCompletedLessons();
+  const progressPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
   return (
     <Container maxW="container.lg" py={12}>
@@ -150,17 +146,31 @@ export default function CourseDetail() {
       </Button>
 
       <Box bg={bgColor} p={8} borderRadius="lg" boxShadow="md">
+        {/* Course Image */}
+        {course.imageUrl && (
+          <Image
+            src={course.imageUrl}
+            alt={course.title}
+            objectFit="cover"
+            w="full"
+            h="300px"
+            borderRadius="lg"
+            mb={6}
+            fallbackSrc="https://via.placeholder.com/800x300?text=Course"
+          />
+        )}
+
         {/* Header */}
-        <HStack mb={4} flexWrap="wrap">
-          <Badge colorScheme="brand" fontSize="md">
-            {course.level}
+        <HStack mb={4} flexWrap="wrap" spacing={3}>
+          <Badge colorScheme={getDifficultyColor(course.difficulty)} fontSize="md">
+            {getDifficultyLabel(course.difficulty)}
           </Badge>
           <HStack color={mutedColor}>
-            <Icon as={FiClock} />
-            <Text>{course.duration}</Text>
+            <Icon as={FiBook} />
+            <Text>{course.modules?.length || 0} модулів</Text>
           </HStack>
           <HStack color={mutedColor}>
-            <Icon as={FiBook} />
+            <Icon as={FiClock} />
             <Text>{totalLessons} уроків</Text>
           </HStack>
         </HStack>
@@ -174,22 +184,24 @@ export default function CourseDetail() {
         </Text>
 
         {/* Progress Bar */}
-        <Box mb={6}>
-          <HStack justify="space-between" mb={2}>
-            <Text fontWeight="medium">Прогрес курсу</Text>
-            <Text color="brand.500" fontWeight="bold">
-              {completedLessons}/{totalLessons} уроків ({course.progress}%)
-            </Text>
-          </HStack>
-          <Progress
-            value={course.progress}
-            colorScheme="brand"
-            size="lg"
-            borderRadius="full"
-            hasStripe
-            isAnimated
-          />
-        </Box>
+        {progress && (
+          <Box mb={6}>
+            <HStack justify="space-between" mb={2}>
+              <Text fontWeight="medium">Прогрес курсу</Text>
+              <Text color="brand.500" fontWeight="bold">
+                {completedLessons}/{totalLessons} уроків ({progressPercent}%)
+              </Text>
+            </HStack>
+            <Progress
+              value={progressPercent}
+              colorScheme="brand"
+              size="lg"
+              borderRadius="full"
+              hasStripe
+              isAnimated
+            />
+          </Box>
+        )}
 
         <Divider my={6} />
 
@@ -198,64 +210,82 @@ export default function CourseDetail() {
           Модулі курсу
         </Heading>
 
-        <Accordion allowMultiple defaultIndex={[0]}>
-          {course.modules.map((module) => (
-            <AccordionItem key={module.id} border="1px" borderColor={borderColor} borderRadius="md" mb={3}>
-              <AccordionButton _expanded={{ bg: 'brand.50', color: 'brand.700' }}>
-                <Box flex="1" textAlign="left" fontWeight="semibold" color={textColor}>
-                  {module.title}
-                </Box>
-                <Badge mr={2}>{module.lessons.length} уроків</Badge>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel pb={4}>
-                <VStack align="stretch" spacing={2}>
-                  {module.lessons.map((lesson) => (
-                    <Box
-                      key={lesson.id}
-                      p={3}
-                      bg={lesson.completed ? lessonBgCompleted : lessonBgNormal}
-                      borderRadius="md"
-                      borderLeft="4px"
-                      borderColor={getLessonColor(lesson)}
-                      _hover={{ bg: lesson.locked ? lessonHoverLocked : lessonHoverNormal }}
-                      cursor={lesson.locked ? 'not-allowed' : 'pointer'}
-                      opacity={lesson.locked ? 0.6 : 1}
-                      onClick={() => !lesson.locked && navigate(`/lesson/${lesson.id}`)}
-                    >
-                      <HStack justify="space-between">
-                        <HStack flex={1}>
-                          <Icon
-                            as={getLessonIcon(lesson)}
-                            color={getLessonColor(lesson)}
-                            boxSize={5}
-                          />
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="medium" color={textColor}>{lesson.title}</Text>
-                            <HStack fontSize="sm" color={mutedColor}>
-                              <Text>{lesson.duration}</Text>
-                              <Text>•</Text>
-                              <Badge size="sm" colorScheme={
-                                lesson.type === 'video' ? 'purple' :
-                                  lesson.type === 'quiz' ? 'orange' : 'blue'
-                              }>
-                                {lesson.type === 'video' ? 'Відео' :
-                                  lesson.type === 'quiz' ? 'Тест' : 'Текст'}
-                              </Badge>
+        {course.modules && course.modules.length > 0 ? (
+          <Accordion allowMultiple defaultIndex={[0]}>
+            {course.modules.map((module, moduleIndex) => (
+              <AccordionItem
+                key={module._id || moduleIndex}
+                border="1px"
+                borderColor={borderColor}
+                borderRadius="md"
+                mb={3}
+              >
+                <AccordionButton _expanded={{ bg: 'brand.50', color: 'brand.700' }}>
+                  <Box flex="1" textAlign="left" fontWeight="semibold" color={textColor}>
+                    {module.title}
+                  </Box>
+                  <Badge mr={2}>{module.lessons?.length || 0} уроків</Badge>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel pb={4}>
+                  {module.description && (
+                    <Text color={mutedColor} fontSize="sm" mb={3}>
+                      {module.description}
+                    </Text>
+                  )}
+                  <VStack align="stretch" spacing={2}>
+                    {module.lessons && module.lessons.length > 0 ? (
+                      module.lessons.map((lesson) => {
+                        const completed = isLessonCompleted(lesson._id || lesson);
+                        return (
+                          <Box
+                            key={lesson._id || lesson}
+                            p={3}
+                            bg={completed ? lessonBgCompleted : lessonBgNormal}
+                            borderRadius="md"
+                            borderLeft="4px"
+                            borderColor={completed ? 'green.500' : 'brand.500'}
+                            _hover={{ bg: lessonHoverNormal }}
+                            cursor="pointer"
+                            onClick={() => navigate(`/courses/${id}/lessons/${lesson._id || lesson}`)}
+                          >
+                            <HStack justify="space-between">
+                              <HStack flex={1}>
+                                <Icon
+                                  as={completed ? FiCheckCircle : FiPlay}
+                                  color={completed ? 'green.500' : 'brand.500'}
+                                  boxSize={5}
+                                />
+                                <VStack align="start" spacing={0}>
+                                  <Text fontWeight="medium" color={textColor}>
+                                    {typeof lesson === 'string' ? 'Урок' : lesson.title}
+                                  </Text>
+                                  {lesson.duration && (
+                                    <Text fontSize="sm" color={mutedColor}>
+                                      {lesson.duration} хв
+                                    </Text>
+                                  )}
+                                </VStack>
+                              </HStack>
                             </HStack>
-                          </VStack>
-                        </HStack>
-                        {lesson.locked && (
-                          <Badge colorScheme="gray">Заблоковано</Badge>
-                        )}
-                      </HStack>
-                    </Box>
-                  ))}
-                </VStack>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
+                          </Box>
+                        );
+                      })
+                    ) : (
+                      <Text color={mutedColor} fontSize="sm" textAlign="center" py={2}>
+                        Уроків поки немає
+                      </Text>
+                    )}
+                  </VStack>
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        ) : (
+          <Text color={mutedColor} textAlign="center" py={4}>
+            Модулів поки немає
+          </Text>
+        )}
 
         <Button
           colorScheme="brand"
@@ -264,13 +294,15 @@ export default function CourseDetail() {
           mt={8}
           leftIcon={<FiPlay />}
           onClick={() => {
-            const firstIncompleteLesson = course.modules
-              .flatMap(m => m.lessons)
-              .find(l => !l.completed && !l.locked);
-            if (firstIncompleteLesson) {
-              navigate(`/lesson/${firstIncompleteLesson.id}`);
+            if (course.modules && course.modules.length > 0) {
+              const firstModule = course.modules[0];
+              if (firstModule.lessons && firstModule.lessons.length > 0) {
+                const firstLesson = firstModule.lessons[0];
+                navigate(`/courses/${id}/lessons/${firstLesson._id || firstLesson}`);
+              }
             }
           }}
+          isDisabled={!course.modules || course.modules.length === 0}
         >
           {completedLessons === 0 ? 'Почати курс' : 'Продовжити навчання'}
         </Button>
